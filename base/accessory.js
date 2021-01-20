@@ -1,10 +1,11 @@
 const suncalc = require('suncalc');
 
 class SunpositionAccessory {
-  constructor(log, config) {
+  constructor(log, config, platformConfig) {
     this.accessory = null;
     this.registered = null;
     this.config = config;
+    this.platformConfig = platformConfig;
     this.log = log;
   }
 
@@ -59,15 +60,15 @@ class SunpositionAccessory {
   }
 
   getState(callback) {
-    const { config, log } = this;
+    const { config, platformConfig, log } = this;
     const { lat, long } = config;
     const { threshold } = config;
 
     if (
-      !config.lat
-      || !config.long
-      || typeof config.lat !== 'number'
-      || typeof config.long !== 'number') {
+      !platformConfig.lat
+      || !platformConfig.long
+      || typeof platformConfig.lat !== 'number'
+      || typeof platformConfig.long !== 'number') {
       log('Error: Lat/Long incorrect. Please refer to the README.');
       callback(null, 0);
       return;

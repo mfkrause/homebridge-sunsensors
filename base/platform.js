@@ -10,7 +10,7 @@ class SunpositionPlatform {
     // Initialize accessories
     this.sensors = {};
     config.sensors.forEach((sensorConfig) => {
-      this.sensors[sensorConfig.name] = new SunpositionAccessory(log, sensorConfig);
+      this.sensors[sensorConfig.name] = new SunpositionAccessory(log, sensorConfig, config);
     });
 
     // Register new accessories after homebridge loaded
