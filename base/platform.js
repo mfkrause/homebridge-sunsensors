@@ -3,8 +3,7 @@ const SunpositionAccessory = require('./accessory');
 let homebridge;
 
 class SunpositionPlatform {
-  constructor(log, config, api) {
-    homebridge = api;
+  constructor(log, config) {
     this.config = config;
     this.log = log;
 
