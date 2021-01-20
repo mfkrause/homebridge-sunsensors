@@ -1,0 +1,23 @@
+{
+    "platform": "Sunposition",
+    "lat": 50.110924,
+    "long": 8.682127,
+    "sensors": [
+        {
+            "name": "North",
+            "threshold": [-5,95]
+        },
+        {
+            "name": "East",
+            "threshold": [85,185]
+        },
+        {
+            "name": "South",
+            "threshold": [175,275]
+        },
+        {
+            "name": "West",
+            "threshold": [265,365]
+        }
+    ]
+}

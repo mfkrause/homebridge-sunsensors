@@ -47,7 +47,7 @@ class SunpositionPlatform {
   }
 
   configureAccessory(accessory) {
-    const sensor = this.sensors[accessory.context.id];
+    const sensor = this.sensors[accessory.displayName];
     sensor.setAccessory(accessory);
     sensor.setRegistered(true);
     accessory.updateReachability(true);
