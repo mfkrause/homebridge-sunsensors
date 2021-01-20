@@ -11,6 +11,8 @@ class SunpositionPlatform {
     });
 
     homebridge = api;
+    this.config = config;
+    this.log = log;
 
     // Register new accessories after homebridge loaded
     homebridge.on('didFinishLaunching', this.registerAccessories.bind(this));

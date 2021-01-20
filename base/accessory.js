@@ -1,9 +1,10 @@
 const suncalc = require('suncalc');
 
 class SunpositionAccessory {
-  constructor(log) {
+  constructor(log, config) {
     this.accessory = null;
     this.hasRegistered = null;
+    this.config = config;
     this.log = log;
   }
 
