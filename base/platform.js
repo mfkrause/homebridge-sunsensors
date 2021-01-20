@@ -4,15 +4,15 @@ let homebridge;
 
 class SunpositionPlatform {
   constructor(log, config, api) {
-    // Initialize accessories
-    this.sensors = {};
-    config.sensors.forEach((sensorConfig) => {
-      this.sensors[sensorConfig.name] = new SunpositionAccessory(this, sensorConfig);
-    });
-
     homebridge = api;
     this.config = config;
     this.log = log;
+
+    // Initialize accessories
+    this.sensors = {};
+    config.sensors.forEach((sensorConfig) => {
+      this.sensors[sensorConfig.name] = new SunpositionAccessory(log, sensorConfig);
+    });
 
     // Register new accessories after homebridge loaded
     homebridge.on('didFinishLaunching', this.registerAccessories.bind(this));

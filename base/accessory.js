@@ -8,22 +8,6 @@ class SunpositionAccessory {
     this.log = log;
   }
 
-  initializeAccessory() {
-    const { config } = this;
-    const uuid = UUIDGen.generate(config.name);
-    const accessory = new Accessory(config.name, uuid);
-
-    const SensorService = accessory.addService(Service.OccupancySensor, config.name);
-
-    if (SensorService) {
-      SensorService.getCharacteristic(Characteristic.OccupancyDetected).setValue(0);
-    }
-
-    this.setAccessory(accessory);
-
-    return accessory;
-  }
-
   getAccessory() {
     return this.accessory;
   }
@@ -31,10 +15,6 @@ class SunpositionAccessory {
   setAccessory(accessory) {
     this.accessory = accessory;
     this.setAccessoryEventHandlers();
-  }
-
-  hasRegistered() {
-    return this.hasRegistered;
   }
 
   setRegistered(status) {
@@ -91,5 +71,23 @@ class SunpositionAccessory {
     }
   }
 }
+
+SunpositionAccessory.prototype.hasRegistered = () => this.hasRegistered;
+
+SunpositionAccessory.prototype.initializeAccessory = () => {
+  const { config } = this;
+  const uuid = UUIDGen.generate(config.name);
+  const accessory = new Accessory(config.name, uuid);
+
+  const SensorService = accessory.addService(Service.OccupancySensor, config.name);
+
+  if (SensorService) {
+    SensorService.getCharacteristic(Characteristic.OccupancyDetected).setValue(0);
+  }
+
+  this.setAccessory(accessory);
+
+  return accessory;
+};
 
 module.exports = SunpositionAccessory;
