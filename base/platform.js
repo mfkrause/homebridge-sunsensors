@@ -3,23 +3,25 @@ const SunpositionAccessory = require('./accessory');
 let homebridge;
 
 class SunpositionPlatform {
-  constructor(log, config) {
+  constructor(log, config, api) {
     // Initialize accessories
     this.sensors = {};
     config.sensors.forEach((sensorConfig) => {
       this.sensors[sensorConfig.name] = new SunpositionAccessory(this, sensorConfig);
     });
 
+    homebridge = api;
+
     // Register new accessories after homebridge loaded
     homebridge.on('didFinishLaunching', this.registerAccessories.bind(this));
   }
 
   registerAccessories() {
-    const { log } = this;
+    const { log, config } = this;
     const accessories = [];
 
     // Initialize sensors
-    this.config.sensors.forEach((sensorConfig) => {
+    config.sensors.forEach((sensorConfig) => {
       if (
         !sensorConfig.threshold
         || !sensorConfig.threshold.length
@@ -39,7 +41,7 @@ class SunpositionPlatform {
 
     // Collect all accessories after initialization to register them with homebridge
     if (accessories.length > 0) {
-      this.api.registerPlatformAccessories('homebridge-sunposition', 'Sunposition', accessories);
+      homebridge.registerPlatformAccessories('homebridge-sunposition', 'Sunposition', accessories);
     }
   }
 }
