@@ -30,7 +30,7 @@ class SunpositionAccessory {
     const SensorService = accessory.addService(Service.OccupancySensor, config.name);
 
     if (SensorService) {
-      SensorService.getCharacteristic(Characteristic.OccupancyDetected).setValue(0);
+      SensorService.getCharacteristic(Characteristic.OccupancyDetected);
     }
 
     this.setAccessory(accessory);
@@ -61,14 +61,10 @@ class SunpositionAccessory {
 
   getState(callback) {
     const { config, platformConfig, log } = this;
-    const { lat, long } = config;
+    const { lat, long } = platformConfig;
     const { threshold } = config;
 
-    if (
-      !platformConfig.lat
-      || !platformConfig.long
-      || typeof platformConfig.lat !== 'number'
-      || typeof platformConfig.long !== 'number') {
+    if (!lat || !long || typeof lat !== 'number' || typeof long !== 'number') {
       log('Error: Lat/Long incorrect. Please refer to the README.');
       callback(null, 0);
       return;
