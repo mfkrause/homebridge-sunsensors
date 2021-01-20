@@ -18,7 +18,7 @@ class SunpositionAccessory {
   }
 
   setRegistered(status) {
-    this.hasRegistered = status;
+    this.registered = status;
   }
 
   setAccessoryEventHandlers() {
