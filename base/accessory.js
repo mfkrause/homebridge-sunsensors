@@ -3,7 +3,7 @@ const suncalc = require('suncalc');
 class SunpositionAccessory {
   constructor(log, config) {
     this.accessory = null;
-    this.hasRegistered = null;
+    this.registered = null;
     this.config = config;
     this.log = log;
   }
@@ -72,7 +72,7 @@ class SunpositionAccessory {
   }
 }
 
-SunpositionAccessory.prototype.hasRegistered = () => this.hasRegistered;
+SunpositionAccessory.prototype.hasRegistered = () => this.registered;
 
 SunpositionAccessory.prototype.initializeAccessory = () => {
   const { config } = this;
