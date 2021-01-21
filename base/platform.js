@@ -37,8 +37,24 @@ class SunpositionPlatform {
       }
     });
 
-    // Initialize sensors
+    // Update cached accessories
+    if (this.accessories.length > 0) {
+      this.accessories.forEach((accessory, index) => {
+        log('Updating cached accesory:', accessory.displayName);
+        this.accessories[index] = this.sensors[accessory.displayName].initializeAccessory();
+      });
+      homebridge.updatePlatformAccessories('homebridge-sunposition', 'Sunposition', this.accessories);
+    }
+    const configuredAccessories = this.accessories;
+    this.accessories = [];
+
+    // Initialize new accessoroies
     config.sensors.forEach((sensorConfig) => {
+      const configured = configuredAccessories.find(
+        (accessory) => accessory.UUID === UUIDGen.generate(sensorConfig.name),
+      );
+      if (configured) return;
+
       log('Registering accessory:', sensorConfig.name);
 
       if (
