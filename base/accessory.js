@@ -71,21 +71,31 @@ class SunpositionAccessory {
     }
 
     const sunPos = suncalc.getPosition(Date.now(), lat, long);
-    const sunPosDegrees = Math.abs((sunPos.azimuth * 180) / Math.PI);
+    let sunPosDegrees = Math.abs((sunPos.azimuth * 180) / Math.PI);
 
-    if (threshold[0] < 0) threshold[0] = 360 + threshold[0];
-    if (threshold[1] < 0) threshold[1] = 360 + threshold[1];
-
-    if (
-      (sunPosDegrees >= threshold[0] && sunPosDegrees <= threshold[1])
-      || (sunPosDegrees >= threshold[1] && sunPosDegrees <= threshold[0])
-    ) {
-      callback(null, 1);
-      log(this.getAccessory().displayName, 'getState: 1');
-    } else {
-      callback(null, 0);
-      log(this.getAccessory().displayName, 'getState: 0');
+    if (threshold[0] > threshold[1]) {
+      const tempThreshold = threshold[1];
+      threshold[1] = threshold[0];
+      threshold[0] = tempThreshold;
     }
+
+    let newState;
+    if (sunPosDegrees >= threshold[0] && sunPosDegrees <= threshold[1]) {
+      newState = 1;
+    } else {
+      newState = 0;
+    }
+    if (threshold[0] < 0 && newState === 0) {
+      sunPosDegrees = -(360 - sunPosDegrees);
+      if (sunPosDegrees >= threshold[0] && sunPosDegrees <= threshold[1]) {
+        newState = 1;
+      } else {
+        newState = 0;
+      }
+    }
+
+    callback(null, newState);
+    log(this.getAccessory().displayName, `getState: ${newState}`);
   }
 }
 
