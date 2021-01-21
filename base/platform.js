@@ -1,8 +1,8 @@
-const SunpositionAccessory = require('./accessory');
+const SunsensorAccessory = require('./accessory');
 
 let homebridge;
 
-class SunpositionPlatform {
+class SunsensorPlatform {
   constructor(log, config) {
     this.config = config;
     this.log = log;
@@ -11,7 +11,7 @@ class SunpositionPlatform {
     // Initialize accessories
     this.sensors = {};
     config.sensors.forEach((sensorConfig) => {
-      this.sensors[sensorConfig.name] = new SunpositionAccessory(log, sensorConfig, config);
+      this.sensors[sensorConfig.name] = new SunsensorAccessory(log, sensorConfig, config);
     });
 
     // Register new accessories after homebridge loaded
@@ -31,7 +31,7 @@ class SunpositionPlatform {
       if (!configExists) {
         log('Removing existing platform accessory from cache:', accessory.displayName);
         try {
-          homebridge.unregisterPlatformAccessories('homebridge-sunposition', 'Sunposition', [accessory]);
+          homebridge.unregisterPlatformAccessories('homebridge-sunsensors', 'Sunsensor', [accessory]);
         } catch (e) {
           log('Could not unregister platform accessory!', e);
         }
@@ -60,7 +60,7 @@ class SunpositionPlatform {
           || sensorConfig.upperThreshold < -360) {
           log(`Error: Thresholds of sensor ${sensorConfig.name} are not correctly configured. Please refer to the README. Unregistering this cached accessory.`);
           try {
-            homebridge.unregisterPlatformAccessories('homebridge-sunposition', 'Sunposition', [accessory]);
+            homebridge.unregisterPlatformAccessories('homebridge-sunsensors', 'Sunsensor', [accessory]);
           } catch (e) {
             log('Could not unregister platform accessory!', e);
           }
@@ -70,7 +70,7 @@ class SunpositionPlatform {
 
         // this.accessories[index] = this.sensors[accessory.displayName].initializeAccessory();
       });
-      homebridge.updatePlatformAccessories('homebridge-sunposition', 'Sunposition', this.accessories);
+      homebridge.updatePlatformAccessories('homebridge-sunsensors', 'Sunsensor', this.accessories);
     }
     const configuredAccessories = tempAccessories;
     this.accessories = [];
@@ -105,7 +105,7 @@ class SunpositionPlatform {
 
     // Collect all accessories after initialization to register them with homebridge
     if (this.accessories.length > 0) {
-      homebridge.registerPlatformAccessories('homebridge-sunposition', 'Sunposition', this.accessories);
+      homebridge.registerPlatformAccessories('homebridge-sunsensors', 'Sunsensor', this.accessories);
     }
   }
 
@@ -118,8 +118,8 @@ class SunpositionPlatform {
  * Set homebridge reference for platform, called from /index.js
  * @param {object} homebridgeRef The homebridge reference to use in the platform
  */
-SunpositionPlatform.setHomebridge = (homebridgeRef) => {
+SunsensorPlatform.setHomebridge = (homebridgeRef) => {
   homebridge = homebridgeRef;
 };
 
-module.exports = SunpositionPlatform;
+module.exports = SunsensorPlatform;

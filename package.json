@@ -1,5 +1,5 @@
 {
-  "name": "homebridge-sunposition",
+  "name": "homebridge-sunsensors",
   "version": "0.1.0",
   "description": "Homebridge plugin to set-up sensors which monitor the current sun position.",
   "main": "index.js",

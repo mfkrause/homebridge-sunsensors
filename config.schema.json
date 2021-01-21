@@ -1,5 +1,5 @@
 {
-    "pluginAlias": "Sunposition",
+    "pluginAlias": "Sunsensor",
     "pluginType": "platform",
     "singular": true,
     "schema": {

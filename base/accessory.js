@@ -1,6 +1,6 @@
 const suncalc = require('suncalc');
 
-class SunpositionAccessory {
+class SunsensorAccessory {
   constructor(log, config, platformConfig) {
     this.accessory = null;
     this.registered = null;
@@ -110,4 +110,4 @@ class SunpositionAccessory {
   }
 }
 
-module.exports = SunpositionAccessory;
+module.exports = SunsensorAccessory;

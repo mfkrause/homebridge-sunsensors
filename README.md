@@ -1,11 +1,11 @@
-# homebridge-sunposition
+# homebridge-sunsensors
 
 This is a plugin for [homebridge](https://github.com/nfarina/homebridge). It allows you to create sensors (occupancy sensors) which will be turned on or off based on the current sun position (azimuth). This is especially useful to, for example, fine-control window coverings.
 
 # Installation
 
 1.  Install homebridge (if not already installed) using: `npm install -g homebridge`
-2.  Install this plugin using: `npm install -g homebridge-sunposition`
+2.  Install this plugin using: `npm install -g homebridge-sunsensors`
 3.  Update your configuration file (see below).
 
 # Example Configuration

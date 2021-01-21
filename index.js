@@ -1,4 +1,4 @@
-const SunpositionPlatform = require('./base/platform');
+const SunsensorPlatform = require('./base/platform');
 
 /* Register platform, set global variables */
 module.exports = (homebridge) => {
@@ -7,7 +7,7 @@ module.exports = (homebridge) => {
   global.UUIDGen = homebridge.hap.uuid;
   global.Accessory = homebridge.platformAccessory;
 
-  SunpositionPlatform.setHomebridge(homebridge);
+  SunsensorPlatform.setHomebridge(homebridge);
 
-  homebridge.registerPlatform('homebridge-sunposition', 'Sunposition', SunpositionPlatform);
+  homebridge.registerPlatform('homebridge-sunsensors', 'Sunsensor', SunsensorPlatform);
 };
