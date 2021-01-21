@@ -30,9 +30,9 @@ class SunpositionPlatform {
         || sensorConfig.threshold.length !== 2
         || typeof sensorConfig.threshold[0] !== 'number'
         || typeof sensorConfig.threshold[1] !== 'number'
-        || sensorConfig.threshold[0] > 360
+        || sensorConfig.threshold[0] > 720
         || sensorConfig.threshold[0] < -360
-        || sensorConfig.threshold[1] > 360
+        || sensorConfig.threshold[1] > 720
         || sensorConfig.threshold[1] < -360) {
         log(`Error: Thresholds of sensor ${sensorConfig.name} are not correctly configured. Please refer to the README.`);
         return;

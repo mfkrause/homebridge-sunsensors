@@ -93,6 +93,14 @@ class SunpositionAccessory {
         newState = 0;
       }
     }
+    if (threshold[1] > 360 && newState === 0) {
+      sunPosDegrees = 360 + sunPosDegrees;
+      if (sunPosDegrees >= threshold[0] && sunPosDegrees <= threshold[1]) {
+        newState = 1;
+      } else {
+        newState = 0;
+      }
+    }
 
     callback(null, newState);
     log(this.getAccessory().displayName, `getState: ${newState}`);
