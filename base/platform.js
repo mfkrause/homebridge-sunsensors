@@ -59,16 +59,16 @@ class SunpositionPlatform {
       log('Registering accessory:', sensorConfig.name);
 
       if (
-        !sensorConfig.threshold
-        || !sensorConfig.threshold.length
-        || typeof sensorConfig.threshold !== 'object'
-        || sensorConfig.threshold.length !== 2
-        || typeof sensorConfig.threshold[0] !== 'number'
-        || typeof sensorConfig.threshold[1] !== 'number'
-        || sensorConfig.threshold[0] > 720
-        || sensorConfig.threshold[0] < -360
-        || sensorConfig.threshold[1] > 720
-        || sensorConfig.threshold[1] < -360) {
+        !sensorConfig.lowerThreshold
+        || !sensorConfig.lowerThreshold.length
+        || !sensorConfig.upperThreshold
+        || !sensorConfig.upperThreshold.length
+        || typeof sensorConfig.lowerThreshold !== 'number'
+        || typeof sensorConfig.upperThreshold !== 'number'
+        || sensorConfig.lowerThreshold > 720
+        || sensorConfig.lowerThreshold < -360
+        || sensorConfig.upperThreshold > 720
+        || sensorConfig.upperThreshold < -360) {
         log(`Error: Thresholds of sensor ${sensorConfig.name} are not correctly configured. Please refer to the README.`);
         return;
       }

@@ -1,0 +1,51 @@
+{
+    "pluginAlias": "Sunposition",
+    "pluginType": "platform",
+    "singular": true,
+    "schema": {
+        "type": "object",
+        "properties": {
+            "lat": {
+                "type": "number",
+                "title": "Latitude",
+                "required": true
+            },
+            "long": {
+                "type": "number",
+                "title": "Longitude",
+                "required": true
+            },
+            "sensors": {
+                "type": "array",
+                "title": "Sensors",
+                "required": true,
+                "description": "Array of the sun positions to keep track of with sensors",
+                "default": [],
+                "items": {
+                    "type": "object",
+                    "title": "Sun Position",
+                    "required": true,
+                    "properties": {
+                        "name": {
+                            "type": "string",
+                            "title": "Sensor Name",
+                            "required": true
+                        },
+                        "lowerThreshold": {
+                            "type": "number",
+                            "title": "Lower Threshold",
+                            "description": "Lower threshold within which the sensor should activate. In degrees. 0° - North, 90° - East, 180° - South, 270° - West. You can also use optionally values between -360° and 0° as well as 360° and 720° to define overlaps.",
+                            "required": true
+                        },
+                        "upperThreshold": {
+                            "type": "number",
+                            "title": "Upper Threshold",
+                            "description": "Upper threshold within which the sensor should activate. In degrees. 0° - North, 90° - East, 180° - South, 270° - West. You can also use optionally values between -360° and 0° as well as 360° and 720° to define overlaps.",
+                            "required": true
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

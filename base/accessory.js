@@ -62,7 +62,8 @@ class SunpositionAccessory {
   getState(callback) {
     const { config, platformConfig, log } = this;
     const { lat, long } = platformConfig;
-    const { threshold } = config;
+    const { lowerThreshold, upperThreshold } = config;
+    const threshold = [lowerThreshold, upperThreshold];
 
     if (!lat || !long || typeof lat !== 'number' || typeof long !== 'number') {
       log('Error: Lat/Long incorrect. Please refer to the README.');

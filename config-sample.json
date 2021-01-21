@@ -5,19 +5,23 @@
     "sensors": [
         {
             "name": "North",
-            "threshold": [-5,95]
+            "lowerThreshold": -5,
+            "upperThreshold": 95
         },
         {
             "name": "East",
-            "threshold": [85,185]
+            "lowerThreshold": 85,
+            "upperThreshold": 185
         },
         {
             "name": "South",
-            "threshold": [175,275]
+            "lowerThreshold": 175,
+            "upperThreshold": 275
         },
         {
             "name": "West",
-            "threshold": [265,365]
+            "lowerThreshold": 265,
+            "upperThreshold": 365
         }
     ]
 }
