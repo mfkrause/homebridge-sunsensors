@@ -51,9 +51,7 @@ class SunpositionPlatform {
         );
         if (
           !sensorConfig.lowerThreshold
-          || !sensorConfig.lowerThreshold.length
           || !sensorConfig.upperThreshold
-          || !sensorConfig.upperThreshold.length
           || typeof sensorConfig.lowerThreshold !== 'number'
           || typeof sensorConfig.upperThreshold !== 'number'
           || sensorConfig.lowerThreshold > 720
@@ -88,9 +86,7 @@ class SunpositionPlatform {
 
       if (
         !sensorConfig.lowerThreshold
-        || !sensorConfig.lowerThreshold.length
-        || !sensorConfig.upperThreshold
-        || !sensorConfig.upperThreshold.length
+        || !sensorConfig.upperThreshol
         || typeof sensorConfig.lowerThreshold !== 'number'
         || typeof sensorConfig.upperThreshold !== 'number'
         || sensorConfig.lowerThreshold > 720
