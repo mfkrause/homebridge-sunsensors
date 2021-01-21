@@ -6,6 +6,7 @@ class SunpositionPlatform {
   constructor(log, config) {
     this.config = config;
     this.log = log;
+    this.accessories = [];
 
     // Initialize accessories
     this.sensors = {};
@@ -19,10 +20,27 @@ class SunpositionPlatform {
 
   registerAccessories() {
     const { log, config } = this;
-    const accessories = [];
+
+    // Unregister removed accessories first
+    this.accessories.forEach((accessory) => {
+      const configExists = config.sensors.find(
+        (sensor) => UUIDGen.generate(sensor.name) === accessory.UUID,
+      );
+
+      if (!configExists) {
+        log('Removing existing platform accessory from cache:', accessory.displayName);
+        try {
+          homebridge.unregisterPlatformAccessories('homebridge-sunposition', 'Sunposition', [accessory]);
+        } catch (e) {
+          log('Could not unregister platform accessory!', e);
+        }
+      }
+    });
 
     // Initialize sensors
     config.sensors.forEach((sensorConfig) => {
+      log('Registering accessory:', sensorConfig.name);
+
       if (
         !sensorConfig.threshold
         || !sensorConfig.threshold.length
@@ -40,31 +58,18 @@ class SunpositionPlatform {
 
       const sensor = this.sensors[sensorConfig.name];
       if (!sensor.hasRegistered()) {
-        accessories.push(sensor.initializeAccessory());
+        this.accessories.push(sensor.initializeAccessory());
       }
     });
 
     // Collect all accessories after initialization to register them with homebridge
-    if (accessories.length > 0) {
-      homebridge.registerPlatformAccessories('homebridge-sunposition', 'Sunposition', accessories);
+    if (this.accessories.length > 0) {
+      homebridge.registerPlatformAccessories('homebridge-sunposition', 'Sunposition', this.accessories);
     }
   }
 
   configureAccessory(accessory) {
-    const { config, log } = this;
-
-    const sensor = config.sensors[accessory.displayName];
-    if (sensor) {
-      sensor.setAccessory(accessory);
-      sensor.setRegistered(true);
-      accessory.updateReachability(true);
-    } else {
-      try {
-        homebridge.unregisterPlatformAccessories('homebridge-sunposition', 'Sunposition', [accessory]);
-      } catch (e) {
-        log('Could not unregister accessory!', e);
-      }
-    }
+    this.accessories.push(accessory);
   }
 }
 
