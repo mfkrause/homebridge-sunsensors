@@ -22,7 +22,8 @@ class SunpositionPlatform {
     const { log, config } = this;
 
     // Unregister removed accessories first
-    this.accessories.forEach((accessory, index) => {
+    let tempAccessories = [];
+    this.accessories.forEach((accessory) => {
       const configExists = config.sensors.find(
         (sensor) => UUIDGen.generate(sensor.name) === accessory.UUID,
       );
@@ -31,16 +32,19 @@ class SunpositionPlatform {
         log('Removing existing platform accessory from cache:', accessory.displayName);
         try {
           homebridge.unregisterPlatformAccessories('homebridge-sunposition', 'Sunposition', [accessory]);
-          this.accessories.splice(index, 1);
         } catch (e) {
           log('Could not unregister platform accessory!', e);
         }
+      } else {
+        tempAccessories.push(accessory);
       }
     });
+    this.accessories = tempAccessories;
 
+    tempAccessories = [];
     // Update cached accessories
     if (this.accessories.length > 0) {
-      this.accessories.forEach((accessory, index) => {
+      this.accessories.forEach((accessory) => {
         log('Updating cached accesory:', accessory.displayName);
         const sensorConfig = config.sensors.find(
           (sensor) => sensor.name === accessory.displayName,
@@ -58,14 +62,15 @@ class SunpositionPlatform {
           || sensorConfig.upperThreshold < -360) {
           log(`Error: Thresholds of sensor ${sensorConfig.name} are not correctly configured. Please refer to the README. Unregistering this cached accessory.`);
           homebridge.unregisterPlatformAccessories('homebridge-sunposition', 'Sunposition', [accessory]);
-          this.accessories.splice(index, 1);
+        } else {
+          tempAccessories.push(accessory);
         }
 
         // this.accessories[index] = this.sensors[accessory.displayName].initializeAccessory();
       });
       homebridge.updatePlatformAccessories('homebridge-sunposition', 'Sunposition', this.accessories);
     }
-    const configuredAccessories = this.accessories;
+    const configuredAccessories = tempAccessories;
     this.accessories = [];
 
     // Initialize new accessoroies
