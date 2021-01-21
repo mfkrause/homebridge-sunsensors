@@ -40,8 +40,27 @@ class SunpositionPlatform {
 
     // Update cached accessories
     if (this.accessories.length > 0) {
-      this.accessories.forEach((accessory) => {
+      this.accessories.forEach((accessory, index) => {
         log('Updating cached accesory:', accessory.displayName);
+        const sensorConfig = config.sensors.find(
+          (sensor) => sensor.name === accessory.displayName,
+        );
+        if (
+          !sensorConfig.lowerThreshold
+          || !sensorConfig.lowerThreshold.length
+          || !sensorConfig.upperThreshold
+          || !sensorConfig.upperThreshold.length
+          || typeof sensorConfig.lowerThreshold !== 'number'
+          || typeof sensorConfig.upperThreshold !== 'number'
+          || sensorConfig.lowerThreshold > 720
+          || sensorConfig.lowerThreshold < -360
+          || sensorConfig.upperThreshold > 720
+          || sensorConfig.upperThreshold < -360) {
+          log(`Error: Thresholds of sensor ${sensorConfig.name} are not correctly configured. Please refer to the README. Unregistering this cached accessory.`);
+          homebridge.unregisterPlatformAccessories('homebridge-sunposition', 'Sunposition', [accessory]);
+          this.accessories.splice(index, 1);
+        }
+
         // this.accessories[index] = this.sensors[accessory.displayName].initializeAccessory();
       });
       homebridge.updatePlatformAccessories('homebridge-sunposition', 'Sunposition', this.accessories);
