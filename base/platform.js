@@ -61,7 +61,11 @@ class SunpositionPlatform {
           || sensorConfig.upperThreshold > 720
           || sensorConfig.upperThreshold < -360) {
           log(`Error: Thresholds of sensor ${sensorConfig.name} are not correctly configured. Please refer to the README. Unregistering this cached accessory.`);
-          homebridge.unregisterPlatformAccessories('homebridge-sunposition', 'Sunposition', [accessory]);
+          try {
+            homebridge.unregisterPlatformAccessories('homebridge-sunposition', 'Sunposition', [accessory]);
+          } catch (e) {
+            log('Could not unregister platform accessory!', e);
+          }
         } else {
           tempAccessories.push(accessory);
         }
