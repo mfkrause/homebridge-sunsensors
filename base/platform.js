@@ -52,6 +52,8 @@ class SunpositionPlatform {
       sensor.setAccessory(accessory);
       sensor.setRegistered(true);
       accessory.updateReachability(true);
+    } else {
+      homebridge.unregisterPlatformAccessories('homebridge-sunposition', 'Sunposition', [accessory]);
     }
   }
 }
