@@ -71,7 +71,7 @@ class SunpositionAccessory {
     }
 
     const sunPos = suncalc.getPosition(Date.now(), lat, long);
-    let sunPosDegrees = Math.abs((sunPos.azimuth * 180) / Math.PI);
+    let sunPosDegrees = Math.abs((sunPos.azimuth * 180) / Math.PI + 180);
 
     if (threshold[0] > threshold[1]) {
       const tempThreshold = threshold[1];
