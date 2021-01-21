@@ -86,7 +86,7 @@ class SunpositionPlatform {
 
       if (
         !sensorConfig.lowerThreshold
-        || !sensorConfig.upperThreshol
+        || !sensorConfig.upperThreshold
         || typeof sensorConfig.lowerThreshold !== 'number'
         || typeof sensorConfig.upperThreshold !== 'number'
         || sensorConfig.lowerThreshold > 720
