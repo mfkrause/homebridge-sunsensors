@@ -1,6 +1,6 @@
 # homebridge-sunposition
 
-This is a plugin for [homebridge](https://github.com/nfarina/homebridge). It allows you to create sensors (occupancy sensors) which will be trned on or off based on the current sun position (azimuth). This is especially useful to, for example, fine-control window coverings.
+This is a plugin for [homebridge](https://github.com/nfarina/homebridge). It allows you to create sensors (occupancy sensors) which will be turned on or off based on the current sun position (azimuth). This is especially useful to, for example, fine-control window coverings.
 
 # Installation
 
@@ -22,10 +22,10 @@ See `config-sample.json` for an example config. This plugin can also be configur
 
 ## Sensors Configuration
 
-| Parameter   | Note                                                                                                                                                                                                                                                        |
-| ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `name`      | Display name of the sensor.                                                                                                                                                                                                                                 |
-| `lowerThreshold` | Lower threshold in degrees between -360 and 720 (-360 to 0 and 360 to 720 can be used to create overlaps).                                                                                                                                            |
-| `upperThreshold` | Upper threshold in degrees between -360 and 720 (-360 to 0 and 360 to 720 can be used to create overlaps).                                                                                                                                            |
+| Parameter   | Note                                                                                                            |
+| ----------- | --------------------------------------------------------------------------------------------------------------- |
+| `name`           | Display name of the sensor.                                                                                |
+| `lowerThreshold` | Lower threshold in degrees between -360 and 720 (-360 to 0 and 360 to 720 can be used to create overlaps). |
+| `upperThreshold` | Upper threshold in degrees between -360 and 720 (-360 to 0 and 360 to 720 can be used to create overlaps). |
 
 **Thresholds example**: If you want the sensor to turn on when the sun is between 0° and 90° azimuth, set the lower threshold to 0 and the upper threshold to 90. See the example configuration file for a basic set-up (north, east, south, west).
