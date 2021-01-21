@@ -51,13 +51,19 @@ class SunpositionPlatform {
   }
 
   configureAccessory(accessory) {
-    const sensor = this.sensors[accessory.displayName];
+    const { config, log } = this;
+
+    const sensor = config.sensors[accessory.displayName];
     if (sensor) {
       sensor.setAccessory(accessory);
       sensor.setRegistered(true);
       accessory.updateReachability(true);
     } else {
-      homebridge.unregisterPlatformAccessories('homebridge-sunposition', 'Sunposition', [accessory]);
+      try {
+        homebridge.unregisterPlatformAccessories('homebridge-sunposition', 'Sunposition', [accessory]);
+      } catch (e) {
+        log('Could not unregister accessory!', e);
+      }
     }
   }
 }
