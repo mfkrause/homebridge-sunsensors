@@ -22,7 +22,7 @@ class SunpositionPlatform {
     const { log, config } = this;
 
     // Unregister removed accessories first
-    this.accessories.forEach((accessory) => {
+    this.accessories.forEach((accessory, index) => {
       const configExists = config.sensors.find(
         (sensor) => UUIDGen.generate(sensor.name) === accessory.UUID,
       );
@@ -31,6 +31,7 @@ class SunpositionPlatform {
         log('Removing existing platform accessory from cache:', accessory.displayName);
         try {
           homebridge.unregisterPlatformAccessories('homebridge-sunposition', 'Sunposition', [accessory]);
+          this.accessories.splice(index, 1);
         } catch (e) {
           log('Could not unregister platform accessory!', e);
         }
@@ -39,9 +40,9 @@ class SunpositionPlatform {
 
     // Update cached accessories
     if (this.accessories.length > 0) {
-      this.accessories.forEach((accessory, index) => {
+      this.accessories.forEach((accessory) => {
         log('Updating cached accesory:', accessory.displayName);
-        this.accessories[index] = this.sensors[accessory.displayName].initializeAccessory();
+        // this.accessories[index] = this.sensors[accessory.displayName].initializeAccessory();
       });
       homebridge.updatePlatformAccessories('homebridge-sunposition', 'Sunposition', this.accessories);
     }
