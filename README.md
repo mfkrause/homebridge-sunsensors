@@ -14,11 +14,12 @@ See `config-sample.json` for an example config. This plugin can also be configur
 
 ## Platform Configuration
 
-| Parameter | Note                                                                  |
-| --------- | --------------------------------------------------------------------- |
-| `lat`     | Latitude of the location the sun position should be calculated for.   |
-| `long`    | Longitude of the location the sun position should be calculated for.  |
-| `sensors` | Array of objects containing configuration for the sensors, see below. |
+| Parameter  | Note                                                                  |
+| ---------- | --------------------------------------------------------------------- |
+| `lat`      | Latitude of the location the sun position should be calculated for.   |
+| `long`     | Longitude of the location the sun position should be calculated for.  |
+| `sensors`  | Array of objects containing configuration for the sensors, see below. |
+| `debugLog` | optional, default: false, additional debug log output                 |
 
 ## Sensors Configuration
 

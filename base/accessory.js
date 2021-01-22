@@ -31,6 +31,11 @@ class SunsensorAccessory {
 
     if (SensorService) {
       SensorService.getCharacteristic(Characteristic.OccupancyDetected);
+
+      SensorService.setCharacteristic(Characteristic.OccupancyDetected, this.updateState());
+      setInterval(() => {
+        SensorService.setCharacteristic(Characteristic.OccupancyDetected, this.updateState());
+      }, 10000);
     }
 
     this.setAccessory(accessory);
@@ -59,7 +64,7 @@ class SunsensorAccessory {
     }
   }
 
-  getState(callback) {
+  updateState() {
     const { config, platformConfig, log } = this;
     const { lat, long } = platformConfig;
     const { lowerThreshold, upperThreshold } = config;
@@ -67,14 +72,13 @@ class SunsensorAccessory {
 
     if (!lat || !long || typeof lat !== 'number' || typeof long !== 'number') {
       log('Error: Lat/Long incorrect. Please refer to the README.');
-      callback(null, 0);
-      return;
+      return 0;
     }
 
     const sunPos = suncalc.getPosition(Date.now(), lat, long);
     let sunPosDegrees = Math.abs((sunPos.azimuth * 180) / Math.PI + 180);
 
-    log(`Current azimuth: ${sunPosDegrees}°`);
+    if (platformConfig.debugLog) log(`Current azimuth: ${sunPosDegrees}°`);
 
     if (threshold[0] > threshold[1]) {
       const tempThreshold = threshold[1];
@@ -105,8 +109,15 @@ class SunsensorAccessory {
       }
     }
 
+    return newState;
+  }
+
+  getState(callback) {
+    const { platformConfig, log } = this;
+    const newState = this.updateState();
+
     callback(null, newState);
-    log(this.getAccessory().displayName, `getState: ${newState}`);
+    if (platformConfig.debugLog) log(this.getAccessory().displayName, `getState: ${newState}`);
   }
 }
 

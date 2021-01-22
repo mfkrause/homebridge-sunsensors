@@ -15,6 +15,12 @@
                 "title": "Longitude",
                 "required": true
             },
+            "debugLog": {
+                "type": "boolean",
+                "title": "Additional debug log",
+                "required": false,
+                "default": false
+            },
             "sensors": {
                 "type": "array",
                 "title": "Sensors",
