@@ -85,8 +85,8 @@ class SunsensorPlatform {
       log('Registering accessory:', sensorConfig.name);
 
       if (
-        !sensorConfig.lowerThreshold
-        || !sensorConfig.upperThreshold
+        sensorConfig.lowerThreshold === undefined
+        || sensorConfig.upperThreshold === undefined
         || typeof sensorConfig.lowerThreshold !== 'number'
         || typeof sensorConfig.upperThreshold !== 'number'
         || sensorConfig.lowerThreshold > 720
