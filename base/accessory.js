@@ -31,11 +31,6 @@ class SunsensorAccessory {
 
     if (SensorService) {
       SensorService.getCharacteristic(Characteristic.OccupancyDetected);
-
-      SensorService.setCharacteristic(Characteristic.OccupancyDetected, this.updateState());
-      setInterval(() => {
-        SensorService.setCharacteristic(Characteristic.OccupancyDetected, this.updateState());
-      }, 10000);
     }
 
     this.setAccessory(accessory);
@@ -61,6 +56,11 @@ class SunsensorAccessory {
       SensorService
         .getCharacteristic(Characteristic.OccupancyDetected)
         .on('get', this.getState.bind(this));
+
+      SensorService.setCharacteristic(Characteristic.OccupancyDetected, this.updateState());
+      setInterval(() => {
+        SensorService.setCharacteristic(Characteristic.OccupancyDetected, this.updateState());
+      }, 10000);
     }
   }
 

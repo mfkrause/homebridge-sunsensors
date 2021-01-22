@@ -50,8 +50,8 @@ class SunsensorPlatform {
           (sensor) => sensor.name === accessory.displayName,
         );
         if (
-          !sensorConfig.lowerThreshold
-          || !sensorConfig.upperThreshold
+          sensorConfig.lowerThreshold === undefined
+          || sensorConfig.upperThreshold === undefined
           || typeof sensorConfig.lowerThreshold !== 'number'
           || typeof sensorConfig.upperThreshold !== 'number'
           || sensorConfig.lowerThreshold > 720
@@ -65,6 +65,8 @@ class SunsensorPlatform {
             log('Could not unregister platform accessory!', e);
           }
         } else {
+          const sensor = this.sensors[sensorConfig.name];
+          sensor.setAccessory(accessory);
           tempAccessories.push(accessory);
         }
 
