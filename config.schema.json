@@ -15,6 +15,11 @@
                 "title": "Longitude",
                 "required": true
             },
+            "apikey": {
+                "type": "string",
+                "title": "OpenWeather API Key",
+                "required": false
+            },
             "debugLog": {
                 "type": "boolean",
                 "title": "Additional debug log",

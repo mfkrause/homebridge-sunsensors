@@ -2,6 +2,7 @@
     "platform": "Sunsensor",
     "lat": 50.110924,
     "long": 8.682127,
+    "apikey": "OpenWeather API Key",
     "sensors": [
         {
             "name": "North",

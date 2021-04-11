@@ -1,7 +1,8 @@
 {
-  "name": "homebridge-sunsensors",
+  "name": "homebridge-sunlight",
   "version": "0.1.2",
-  "description": "Homebridge plugin to set-up sensors which monitor the current sun position.",
+  "description": "Homebridge plugin to set-up contact sensors monitoring sun position and cloudiness",
+  "author": "Christian Wegerhoff <christian.wegerhoff@icloud.com>",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -14,13 +15,8 @@
     "homebridge-plugin"
   ],
   "license": "Apache-2.0",
-  "devDependencies": {
-    "eslint": "^7.18.0",
-    "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-plugin-import": "^2.22.1",
-    "nodemon": "^2.0.7"
-  },
   "dependencies": {
-    "suncalc": "^1.8.0"
+    "suncalc": "^1.8.0",
+    "request": "^2.88.0"
   }
 }

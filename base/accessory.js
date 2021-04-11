@@ -1,12 +1,17 @@
 const suncalc = require('suncalc');
+const request = require('request');
 
-class SunsensorAccessory {
+class SunlightAccessory {
   constructor(log, config, platformConfig) {
     this.accessory = null;
     this.registered = null;
     this.config = config;
     this.platformConfig = platformConfig;
     this.log = log;
+
+    this.cachedWeatherObj = undefined;
+    this.lastupdate = 0;
+    if (apikey) { setInterval(() => { getWeather(); }, 300000); };
   }
 
   getAccessory() {
@@ -27,10 +32,10 @@ class SunsensorAccessory {
     const uuid = UUIDGen.generate(config.name);
     const accessory = new Accessory(config.name, uuid);
 
-    const SensorService = accessory.addService(Service.OccupancySensor, config.name);
+    const SensorService = accessory.addService(Service.ContactSensor, config.name);
 
     if (SensorService) {
-      SensorService.getCharacteristic(Characteristic.OccupancyDetected);
+      SensorService.getCharacteristic(Characteristic.ContactSensorState);
     }
 
     this.setAccessory(accessory);
@@ -50,23 +55,23 @@ class SunsensorAccessory {
       callback();
     });
 
-    const SensorService = this.getAccessory().getService(Service.OccupancySensor);
+    const SensorService = this.getAccessory().getService(Service.ContactSensor);
 
     if (SensorService) {
       SensorService
-        .getCharacteristic(Characteristic.OccupancyDetected)
+        .getCharacteristic(Characteristic.ContactSensorState)
         .on('get', this.getState.bind(this));
 
-      SensorService.setCharacteristic(Characteristic.OccupancyDetected, this.updateState());
+      SensorService.setCharacteristic(Characteristic.ContactSensorState, this.updateState());
       setInterval(() => {
-        SensorService.setCharacteristic(Characteristic.OccupancyDetected, this.updateState());
+        SensorService.setCharacteristic(Characteristic.ContactSensorState, this.updateState());
       }, 10000);
     }
   }
 
   updateState() {
     const { config, platformConfig, log } = this;
-    const { lat, long } = platformConfig;
+    const { lat, long, apikey } = platformConfig;
     const { lowerThreshold, upperThreshold } = config;
     const threshold = [lowerThreshold, upperThreshold];
 
@@ -88,25 +93,33 @@ class SunsensorAccessory {
 
     let newState;
     if (sunPosDegrees >= threshold[0] && sunPosDegrees <= threshold[1]) {
-      newState = 1;
+      newState = true;
     } else {
-      newState = 0;
+      newState = false;
     }
-    if (threshold[0] < 0 && newState === 0) {
+    if (threshold[0] < 0 && newState === false) {
       sunPosDegrees = -(360 - sunPosDegrees);
       if (sunPosDegrees >= threshold[0] && sunPosDegrees <= threshold[1]) {
-        newState = 1;
+        newState = true;
       } else {
-        newState = 0;
+        newState = false;
       }
     }
-    if (threshold[1] > 360 && newState === 0) {
+    if (threshold[1] > 360 && newState === false) {
       sunPosDegrees = 360 + sunPosDegrees;
       if (sunPosDegrees >= threshold[0] && sunPosDegrees <= threshold[1]) {
-        newState = 1;
+        newState = true;
       } else {
-        newState = 0;
+        newState = false;
       }
+    }
+
+    // Sun is in relevant azimuth range, so lets check clouds
+    if (newState && apikey) {
+      let sunState = returnSunFromCache();
+      let cloudState = returnCloudinessFromCache();
+      if (platformConfig.debugLog) log(`Sund state: ${sunState}%, Cloud state: ${cloudState}%`);
+      newState = sunState > 10 && sunState <90 && cloudState < 25;
     }
 
     return newState;
@@ -119,6 +132,72 @@ class SunsensorAccessory {
     callback(null, newState);
     if (platformConfig.debugLog) log(this.getAccessory().displayName, `getState: ${newState}`);
   }
+
+
+  // Open Weather functions
+  getWeather() {
+    const { platformConfig, log } = this;
+    const { lat, long, apikey } = platformConfig;
+
+    // Only fetch new data once per minute
+    if (!this.cachedWeatherObj || this.lastupdate + 60 < (new Date().getTime() / 1000 | 0)) {
+        let p = new Promise((resolve, reject) => {
+          var url = 'http://api.openweathermap.org/data/2.5/weather?appid=' + apikey + '&lat=' + lat + '&lon=' + lon;
+          if (platformConfig.debugLog) log("Checking weather: %s", url);
+          request(url, function (error, response, responseBody) {
+            if (error) {
+                log("HTTP get weather function failed: %s", error.message);
+                reject(error);
+            } else {
+                try {
+                    if (platformConfig.debugLog) log("Server response:", responseBody);
+                    setCacheObj(responseBody);
+                    resolve(response && response.statusCode);
+                } catch (error2) {
+                    log("Getting Weather failed: %s", error2, response, responseBody);
+                    reject(error2);
+                }
+            }
+          })
+        };
+        return p;
+    }
+  }
+
+  // Handles the response from HTTP-API and caches the data
+  setCacheObj(responseBody) {
+    this.cachedWeatherObj = JSON.parse(responseBody);
+    this.lastupdate = (new Date().getTime() / 1000);
+  };
+
+  returnCloudinessFromCache() {
+    var value;
+    if (this.cachedWeatherObj && this.cachedWeatherObj["clouds"]) {
+        value = parseFloat(this.cachedWeatherObj["clouds"]["all"]);
+    }
+    return value;
+  };
+
+  returnSunFromCache() {
+    var value;
+    if (this.cachedWeatherObj && this.cachedWeatherObj["sys"]) {
+        var sunrise = parseInt(this.cachedWeatherObj["sys"]["sunrise"]);
+        var sunset = parseInt(this.cachedWeatherObj["sys"]["sunset"]);
+        var now = Math.round(new Date().getTime() / 1000);
+        if (now > sunset) {
+            // It's already dark outside
+            value = 100;
+        } else if (now > sunrise) {
+            // calculate how far though the day (where day is from sunrise to sunset) we are
+            var intervalLen = (sunset - sunrise);
+            value = ((now - sunrise) / intervalLen) * 100;
+        } else {
+          value = 0;
+        }
+    }
+    return value;
+  };
+
 }
 
-module.exports = SunsensorAccessory;
+module.exports = SunlightAccessory;

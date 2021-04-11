@@ -40,5 +40,6 @@ jspm_packages/
 .vscode-test
 .code-workspace
 
-# File System
+# Mac OS X system files
 .DS_Store
+._*
