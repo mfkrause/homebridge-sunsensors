@@ -156,10 +156,10 @@ class SunlightAccessory {
                   if (platformConfig.debugLog) log("Server response:", responseBody);
                   this.cachedWeatherObj = JSON.parse(responseBody);
                   this.lastupdate = (new Date().getTime() / 1000);
-                  log(`Sun state: ${this.returnSunFromCache().toFixed(2)}%, Cloud state: ${this.returnCloudinessFromCache()}%`);
-                  resolve(response && response.statusCode);
+                  log(`Sun state: ${this.returnSunFromCache()}%, Cloud state: ${this.returnCloudinessFromCache()}%`);
+                  resolve(response.statusCode);
               } catch (error2) {
-                  log("Getting Weather failed: %s", error2, response, responseBody);
+                  log("Getting Weather failed: %s", error2, responseBody);
                   reject(error2);
               }
           }
@@ -188,7 +188,7 @@ class SunlightAccessory {
         } else if (now > sunrise) {
             // calculate how far though the day (where day is from sunrise to sunset) we are
             var intervalLen = (sunset - sunrise);
-            value = ((now - sunrise) / intervalLen) * 100;
+            value = (((now - sunrise) / intervalLen) * 100).toFixed(2);
         } else {
           value = 0;
         }

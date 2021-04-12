@@ -1,9 +1,9 @@
 # Homebridge Sunlight
-[![npm-version](https://badgen.net/npm/v/homebridge-sunlight)](https://www.npmjs.com/package/homebridge-sunlight))
-[![npm-downloads](https://badgen.net/npm/dt/homebridge-sunlight))](https://www.npmjs.com/package/homebridge-sunlight))
+[![npm-version](https://badgen.net/npm/v/homebridge-sunlight)](https://www.npmjs.com/package/homebridge-sunlight)
+[![npm-downloads](https://badgen.net/npm/dt/homebridge-sunlight)](https://www.npmjs.com/package/homebridge-sunlight)
 
 
-This is a plugin for [homebridge](https://github.com/nfarina/homebridge). It provides contact sensors to automate sun protection. Sensors are opened (breached) when the sun is in a given section of the sky (azimuth) and optionally if an [OpenWeather API key](https://openweathermap.org/api) is provided when the sun is above the horizon and the sky is not overcast.
+This is a plugin for [homebridge](https://github.com/nfarina/homebridge). It provides contact sensors based on sun position and clouds to automate sun protection. Sensors are opened when the sun is in a defined section of the sky (azimuth) and optionally if an [OpenWeather API key](https://openweathermap.org/api) is provided when the sky is not overcast and sun is above the horizon.
 
 
 # Installation
@@ -29,13 +29,15 @@ See `config-sample.json` for an example config. This plugin can also be configur
 
 ## Sensors Configuration
 
+Define contact sensors for one or more sections of the sky, e.g. for windows looking to different directions. Direction is specified in degrees of compass: 0° North, 90° East, 180° South, 270° West. To define overlaps you can use values between -360° and 0° as well as 360° and 720°.
+
 | Parameter   | Note                                                                                                            |
 | ----------- | --------------------------------------------------------------------------------------------------------------- |
-| `name`           | Display name of the sensor.                                                                                |
-| `lowerThreshold` | Lower threshold in degrees between -360 and 720 (-360 to 0 and 360 to 720 can be used to create overlaps). |
-| `upperThreshold` | Upper threshold in degrees between -360 and 720 (-360 to 0 and 360 to 720 can be used to create overlaps). |
+| `name`           | Display name of the sensor                                                                                |
+| `lowerThreshold` | Left side of sky section within which the sensor should activate. |
+| `upperThreshold` | Right side of sky section within which the sensor should activate |
 
 **Thresholds example**: If you want the sensor to turn on when the sun is between 0° and 90° azimuth, set the lower threshold to 0 and the upper threshold to 90. See the example configuration file for a basic set-up (north, east, south, west).
 
-For help or in case of issues please visit the [GitHub repository](https://github.com/Krillle/homebridge-sunhsine/issues).    
+For help or in case of issues please visit the [GitHub repository](https://github.com/Krillle/homebridge-sunlight/issues).    
 This plugin is based on [homebridge-sunsensors](https://github.com/mfkrause/homebridge-sunsensors).

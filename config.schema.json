@@ -3,7 +3,7 @@
     "pluginType": "platform",
     "singular": true,
     "headerDisplay": "This plugin provides contact sensors to automate sun protection. Sensors are opened (breached) when the sun is in a given section of the sky (azimuth) and optionally if an [OpenWeather API key](https://openweathermap.org/api) is provided when the sun is above the horizon and the sky is not overcast.",
-    "footerDisplay": "For help or in case of issues please visit the [GitHub repository](https://github.com/Krillle/homebridge-sunhsine/issues). Based on [homebridge-sunsensors](https://github.com/mfkrause/homebridge-sunsensors).",
+    "footerDisplay": "For help or in case of issues please visit the [GitHub repository](https://github.com/Krillle/homebridge-sunlight/issues). Based on [homebridge-sunsensors](https://github.com/mfkrause/homebridge-sunsensors).",
     "schema": {
         "type": "object",
         "properties": {
@@ -37,18 +37,19 @@
                         "name": {
                             "type": "string",
                             "title": "Sensor Name",
+                            "description": "Homekit display name of the sensor",
                             "required": true
                         },
                         "lowerThreshold": {
                             "type": "number",
                             "title": "Lower Threshold",
-                            "description": "Left side of sky section within which the sensor should activate.",
+                            "description": "Left side of sky section within which the sensor should activate",
                             "required": true
                         },
                         "upperThreshold": {
                             "type": "number",
                             "title": "Upper Threshold",
-                            "description": "Right side of sky section within which the sensor should activate.",
+                            "description": "Right side of sky section within which the sensor should activate",
                             "required": true
                         }
                     }

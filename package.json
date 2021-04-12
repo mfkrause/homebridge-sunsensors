@@ -1,7 +1,8 @@
 {
   "name": "homebridge-sunlight",
-  "version": "0.2.0",
-  "description": "Homebridge plugin to set-up contact sensors monitoring sun position, daylight and cloudiness",
+  "displayName": "Sunlight",
+  "version": "0.2.1",
+  "description": "Homebridge plugin for contact sensors monitoring sun position, daylight and cloudiness",
   "author": "Christian Wegerhoff <christian.wegerhoff@icloud.com>",
   "contributors": [
     {
@@ -20,6 +21,13 @@
     "sun protection",
     "window covering"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Krillle/homebridge-sunlight.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Krillle/homebridge-sunlight/issues"
+  },
   "license": "Apache-2.0",
   "dependencies": {
     "suncalc": "^1.8.0",
