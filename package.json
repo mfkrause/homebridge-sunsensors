@@ -1,18 +1,24 @@
 {
   "name": "homebridge-sunlight",
-  "version": "0.1.2",
-  "description": "Homebridge plugin to set-up contact sensors monitoring sun position and cloudiness",
+  "version": "0.2.0",
+  "description": "Homebridge plugin to set-up contact sensors monitoring sun position, daylight and cloudiness",
   "author": "Christian Wegerhoff <christian.wegerhoff@icloud.com>",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "contributors": [
+    {
+      "name": "Maximilian Krause",
+      "email": "hello@max-krause.com"
+    }
+  ],
   "engines": {
     "node": ">=0.12.0",
     "homebridge": ">=0.2.0"
   },
   "keywords": [
-    "homebridge-plugin"
+    "homebridge-plugin",
+    "sunlight",
+    "sun",
+    "sun protection",
+    "window covering"
   ],
   "license": "Apache-2.0",
   "dependencies": {

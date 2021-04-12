@@ -11,7 +11,10 @@ class SunlightAccessory {
 
     this.cachedWeatherObj = undefined;
     this.lastupdate = 0;
-    if (apikey) { setInterval(() => { getWeather(); }, 300000); };
+    if (this.platformConfig.apikey) {
+      this.getWeather();
+      setInterval(() => { this.getWeather(); }, 300000);
+    }
   }
 
   getAccessory() {
@@ -114,12 +117,12 @@ class SunlightAccessory {
       }
     }
 
-    // Sun is in relevant azimuth range, so lets check clouds
+    // Sun is in relevant azimuth range, lets check daylight and clouds
     if (newState && apikey) {
-      let sunState = returnSunFromCache();
-      let cloudState = returnCloudinessFromCache();
-      if (platformConfig.debugLog) log(`Sund state: ${sunState}%, Cloud state: ${cloudState}%`);
-      newState = sunState > 10 && sunState <90 && cloudState < 25;
+      let sunState = this.returnSunFromCache();
+      let cloudState = this.returnCloudinessFromCache();
+      if (platformConfig.debugLog) log(`Sun state: ${sunState}%, Cloud state: ${cloudState}%`);
+      newState = sunState > 10 && sunState <90 && cloudState <= 25;
     }
 
     return newState;
@@ -134,40 +137,35 @@ class SunlightAccessory {
   }
 
 
-  // Open Weather functions
+  // - - - - - - - - Open Weather functions - - - - - - - -
   getWeather() {
     const { platformConfig, log } = this;
     const { lat, long, apikey } = platformConfig;
 
     // Only fetch new data once per minute
     if (!this.cachedWeatherObj || this.lastupdate + 60 < (new Date().getTime() / 1000 | 0)) {
-        let p = new Promise((resolve, reject) => {
-          var url = 'http://api.openweathermap.org/data/2.5/weather?appid=' + apikey + '&lat=' + lat + '&lon=' + lon;
-          if (platformConfig.debugLog) log("Checking weather: %s", url);
-          request(url, function (error, response, responseBody) {
-            if (error) {
-                log("HTTP get weather function failed: %s", error.message);
-                reject(error);
-            } else {
-                try {
-                    if (platformConfig.debugLog) log("Server response:", responseBody);
-                    setCacheObj(responseBody);
-                    resolve(response && response.statusCode);
-                } catch (error2) {
-                    log("Getting Weather failed: %s", error2, response, responseBody);
-                    reject(error2);
-                }
-            }
-          })
-        };
-        return p;
+      let p = new Promise((resolve, reject) => {
+        var url = 'http://api.openweathermap.org/data/2.5/weather?appid=' + apikey + '&lat=' + lat + '&lon=' + long;
+        if (platformConfig.debugLog) log("Checking weather: %s", url);
+        request(url, function (error, response, responseBody) {
+          if (error) {
+              log("HTTP get weather function failed: %s", error.message);
+              reject(error);
+          } else {
+              try {
+                  if (platformConfig.debugLog) log("Server response:", responseBody);
+                  this.cachedWeatherObj = JSON.parse(responseBody);
+                  this.lastupdate = (new Date().getTime() / 1000);
+                  log(`Sun state: ${this.returnSunFromCache().toFixed(2)}%, Cloud state: ${this.returnCloudinessFromCache()}%`);
+                  resolve(response && response.statusCode);
+              } catch (error2) {
+                  log("Getting Weather failed: %s", error2, response, responseBody);
+                  reject(error2);
+              }
+          }
+        }.bind(this))
+      })
     }
-  }
-
-  // Handles the response from HTTP-API and caches the data
-  setCacheObj(responseBody) {
-    this.cachedWeatherObj = JSON.parse(responseBody);
-    this.lastupdate = (new Date().getTime() / 1000);
   };
 
   returnCloudinessFromCache() {

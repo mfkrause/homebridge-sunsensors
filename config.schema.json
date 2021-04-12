@@ -1,7 +1,9 @@
 {
-    "pluginAlias": "Sunsensor",
+    "pluginAlias": "Sunlight",
     "pluginType": "platform",
     "singular": true,
+    "headerDisplay": "This plugin provides contact sensors to automate sun protection. Sensors are opened (breached) when the sun is in a given section of the sky (azimuth) and optionally if an [OpenWeather API key](https://openweathermap.org/api) is provided when the sun is above the horizon and the sky is not overcast.",
+    "footerDisplay": "For help or in case of issues please visit the [GitHub repository](https://github.com/Krillle/homebridge-sunhsine/issues). Based on [homebridge-sunsensors](https://github.com/mfkrause/homebridge-sunsensors).",
     "schema": {
         "type": "object",
         "properties": {
@@ -18,19 +20,14 @@
             "apikey": {
                 "type": "string",
                 "title": "OpenWeather API Key",
+                "description": "If API key is provided, sunhsine is reported only during daylight times when sky is not overcast",
                 "required": false
-            },
-            "debugLog": {
-                "type": "boolean",
-                "title": "Additional debug log",
-                "required": false,
-                "default": false
             },
             "sensors": {
                 "type": "array",
                 "title": "Sensors",
                 "required": true,
-                "description": "Array of the sun positions to keep track of with sensors",
+                "description": "Define contact sensors for one or more sections of the sky, e.g. for windows looking to different directions. Direction is specified in degrees of compass: 0° North, 90° East, 180° South, 270° West. To define overlaps you can use values between -360° and 0° as well as 360° and 720°.",
                 "default": [],
                 "items": {
                     "type": "object",
@@ -45,17 +42,23 @@
                         "lowerThreshold": {
                             "type": "number",
                             "title": "Lower Threshold",
-                            "description": "Lower threshold within which the sensor should activate. In degrees. 0° - North, 90° - East, 180° - South, 270° - West. You can also use optionally values between -360° and 0° as well as 360° and 720° to define overlaps.",
+                            "description": "Left side of sky section within which the sensor should activate.",
                             "required": true
                         },
                         "upperThreshold": {
                             "type": "number",
                             "title": "Upper Threshold",
-                            "description": "Upper threshold within which the sensor should activate. In degrees. 0° - North, 90° - East, 180° - South, 270° - West. You can also use optionally values between -360° and 0° as well as 360° and 720° to define overlaps.",
+                            "description": "Right side of sky section within which the sensor should activate.",
                             "required": true
                         }
                     }
                 }
+            },
+            "debugLog": {
+                "type": "boolean",
+                "title": "Debug logging enabled",
+                "required": false,
+                "default": false
             }
         }
     }
