@@ -34,7 +34,7 @@ Define contact sensors for one or more sections of the sky, e.g. for windows loo
 | Parameter   | Note                                                                                                            |
 | ----------- | --------------------------------------------------------------------------------------------------------------- |
 | `name`           | Display name of the sensor                                                                                |
-| `lowerThreshold` | Left side of sky section within which the sensor should activate. |
+| `lowerThreshold` | Left side of sky section within which the sensor should activate |
 | `upperThreshold` | Right side of sky section within which the sensor should activate |
 
 **Thresholds example**: If you want the sensor to turn on when the sun is between 0° and 90° azimuth, set the lower threshold to 0 and the upper threshold to 90. See the example configuration file for a basic set-up (north, east, south, west).

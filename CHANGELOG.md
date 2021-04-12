@@ -1,5 +1,8 @@
 ## Change Log
 
+### v0.2.2 (2021/04/13 01:00)
+- feature: device model and manufacturer
+
 ### v0.2.1 (2021/04/12 23:45)
 - fix: error handling
 - fix: UI settings description text

@@ -32,8 +32,14 @@ class SunlightAccessory {
 
   initializeAccessory() {
     const { config } = this;
+    const { lowerThreshold, upperThreshold } = config;
     const uuid = UUIDGen.generate(config.name);
     const accessory = new Accessory(config.name, uuid);
+    // Add Device Information
+    accessory.getService(Service.AccessoryInformation)
+      .setCharacteristic(Characteristic.Manufacturer, 'Krillle')
+      .setCharacteristic(Characteristic.Model, 'Azimuth ' + lowerThreshold + '-' + upperThreshold)
+      .setCharacteristic(Characteristic.SerialNumber, '-');
 
     const SensorService = accessory.addService(Service.ContactSensor, config.name);
 
