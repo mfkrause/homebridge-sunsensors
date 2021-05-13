@@ -13,7 +13,7 @@ class SunlightAccessory {
     this.lastupdate = 0;
     if (this.platformConfig.apikey) {
       this.getWeather();
-      setInterval(() => { this.getWeather(); }, 300000);
+      setInterval(() => { this.getWeather(); }, 294997);
     }
   }
 
@@ -39,7 +39,7 @@ class SunlightAccessory {
     accessory.getService(Service.AccessoryInformation)
       .setCharacteristic(Characteristic.Manufacturer, 'Krillle')
       .setCharacteristic(Characteristic.Model, 'Azimuth ' + lowerThreshold + '-' + upperThreshold)
-      .setCharacteristic(Characteristic.SerialNumber, '-');
+      .setCharacteristic(Characteristic.SerialNumber, '---');
 
     const SensorService = accessory.addService(Service.ContactSensor, config.name);
 
@@ -74,7 +74,7 @@ class SunlightAccessory {
       SensorService.setCharacteristic(Characteristic.ContactSensorState, this.updateState());
       setInterval(() => {
         SensorService.setCharacteristic(Characteristic.ContactSensorState, this.updateState());
-      }, 10000);
+      }, 10007);
     }
   }
 

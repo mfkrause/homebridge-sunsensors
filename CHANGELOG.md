@@ -1,5 +1,9 @@
 ## Change Log
 
+### v0.2.3 (2021/05/13 23:45)
+- fix: device serial number must have at least 3 digits
+- fix: avoid divergent sensor cloud state by checking cloud state at uneven times
+
 ### v0.2.2 (2021/04/13 01:00)
 - feature: device model and manufacturer
 
