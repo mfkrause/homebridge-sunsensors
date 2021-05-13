@@ -1,7 +1,7 @@
 {
   "name": "homebridge-sunlight",
   "displayName": "Sunlight",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Homebridge plugin for contact sensors monitoring sun position, daylight and cloudiness",
   "author": "Christian Wegerhoff <christian.wegerhoff@icloud.com>",
   "contributors": [
